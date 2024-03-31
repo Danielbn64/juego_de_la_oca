@@ -1,0 +1,375 @@
+.background-screen {
+  position: absolute;
+  top: 0;
+  background: linear-gradient(#fff6b9, #fff);
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.main-content {
+  width: 100%;
+  height: 100vh;
+}
+
+.players-menu {
+  width: 750px;
+}
+
+.bench-of-players {
+  width: 250px;
+  margin-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+}
+
+.player-bench {
+  background-color: #fff;
+  height: 120px;
+  margin-top: 5px;
+  border-radius: 10px;
+  border: solid 2px #ccc;
+}
+
+.player-info {
+  width: 100px;
+  height: 100%;
+  border-left: 1px solid #ccc;
+  padding: 5px;
+}
+
+.players-controllers {
+  width: 500px;
+}
+
+.roll-dice {
+  background-color: #fff;
+  border-radius: 10px;
+  width: 485px;
+  height: 120px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border: solid 2px #ccc;
+}
+
+.roll-dice-btn {
+  width: 80%;
+  height: 95px;
+  font-size: 35px;
+  margin: 10px;
+}
+
+.roll-dice-btn:not(:disabled):hover {
+  color: #5292e0;
+  border: solid 2px #5292e0;
+}
+
+.dice-result {
+  width: 20%;
+  border: solid 2px #ccc;
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.dice-number{
+  font-size: 30px;
+}
+
+.token{
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+}
+
+.oneToken{
+  background-color: #33509a;
+  bottom: 35px;
+  left: 600px; 
+  z-index: 4;
+}
+
+.secondToken{
+  background-color: #8b1515;
+  bottom: 35px;
+  left: 500px;
+  z-index: 3;
+}
+
+.thirdToken{
+  background-color: #0c370c;
+  bottom: 35px;
+  left: 400px;
+  z-index: 3;
+}
+
+.fourthToken{
+  background-color: #c2b135;
+  bottom: 35px;
+  left: 300px;
+  z-index: 3;
+}
+
+.token-img{
+  border-radius: 30px;
+}
+
+.board{
+  position: absolute;
+  width: 915px;
+  z-index: 1;
+  top: 52px;
+  right: 0;
+}
+
+.board-skeleton {
+  position: absolute;
+  z-index: 0;
+  right: 0;
+  top: 50px;
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(7, 1fr);
+  grid-template-areas:
+    "twenty-three twenty-two twenty-one twenty nineteen eighteen seventeen sixteen fifteen"
+    "twenty-four forty-five forty-four forty-three forty-two forty-one forty thirty-nine fourteen"
+    "twenty-five forty-six fifty-nine fifty-eight fifty-seven fifty-six fifty-five thirty-eight thirteen"
+    "twenty-six forty-seven sixty sixty sixty sixty fifty-four thirty-seven twelve"
+    "twenty-seven forty-eight forty-nine fifty fifty-one fifty-two fifty-three thirty-six eleven"
+    "twenty-eight twenty-nine thirty thirty-one thirty-two thirty-three thirty-four thirty-five ten"
+    "one two three four five six seven eight nine";
+}
+
+#box-one {
+  grid-area: one;
+}
+#box-two {
+  grid-area: two;
+}
+#box-three {
+  grid-area: three;
+}
+#box-four {
+  grid-area: four;
+}
+#box-five {
+  grid-area: five;
+}
+#box-six {
+  grid-area: six;
+}
+#box-seven {
+  grid-area: seven;
+}
+#box-eight {
+  grid-area: eight;
+}
+#box-nine {
+  grid-area: nine;
+}
+#box-ten {
+  grid-area: ten;
+}
+#box-eleven {
+  grid-area: eleven;
+}
+#box-twelve {
+  grid-area: twelve;
+}
+#box-thirteen {
+  grid-area: thirteen;
+}
+#box-fourteen {
+  grid-area: fourteen;
+}
+#box-fifteen {
+  grid-area: fifteen;
+}
+#box-sixteen {
+  grid-area: sixteen;
+}
+#box-seventeen {
+  grid-area: seventeen;
+}
+#box-eighteen {
+  grid-area: eighteen;
+}
+#box-nineteen {
+  grid-area: nineteen;
+}
+#box-twenty {
+  grid-area: twenty;
+}
+#box-twenty-one {
+  grid-area: twenty-one;
+}
+#box-twenty-two {
+  grid-area: twenty-two;
+}
+#box-twenty-three {
+  grid-area: twenty-three;
+}
+#box-twenty-four {
+  grid-area: twenty-four;
+}
+#box-twenty-five {
+  grid-area: twenty-five;
+}
+#box-twenty-six {
+  grid-area: twenty-six;
+}
+#box-twenty-seven {
+  grid-area: twenty-seven;
+}
+#box-twenty-eight {
+  grid-area: twenty-eight;
+}
+#box-twenty-nine {
+  grid-area: twenty-nine;
+}
+#box-thirty {
+  grid-area: thirty;
+}
+#box-thirty-one {
+  grid-area: thirty-one;
+}
+#box-thirty-two {
+  grid-area: thirty-two;
+}
+#box-thirty-three {
+  grid-area: thirty-three;
+}
+#box-thirty-four {
+  grid-area: thirty-four;
+}
+#box-thirty-five {
+  grid-area: thirty-five;
+}
+#box-thirty-six {
+  grid-area: thirty-six;
+}
+#box-thirty-seven {
+  grid-area: thirty-seven;
+}
+#box-thirty-eight {
+  grid-area: thirty-eight;
+}
+#box-thirty-nine {
+  grid-area: thirty-nine;
+}
+#box-forty {
+  grid-area: forty;
+}
+#box-forty-one {
+  grid-area: forty-one;
+}
+#box-forty-two {
+  grid-area: forty-two;
+}
+#box-forty-three {
+  grid-area: forty-three;
+}
+#box-forty-four {
+  grid-area: forty-four;
+}
+#box-forty-five {
+  grid-area: forty-five;
+}
+#box-forty-six {
+  grid-area: forty-six;
+}
+#box-forty-seven {
+  grid-area: forty-seven;
+}
+#box-forty-eight {
+  grid-area: forty-eight;
+}
+#box-forty-nine {
+  grid-area: forty-nine;
+}
+#box-fifty {
+  grid-area: fifty;
+}
+#box-fifty-one {
+  grid-area: fifty-one;
+}
+#box-fifty-two {
+  grid-area: fifty-two;
+}
+#box-fifty-three {
+  grid-area: fifty-three;
+}
+#box-fifty-four {
+  grid-area: fifty-four;
+}
+#box-fifty-five {
+  grid-area: fifty-five;
+}
+#box-fifty-six {
+  grid-area: fifty-six;
+}
+#box-fifty-seven {
+  grid-area: fifty-seven;
+}
+#box-fifty-eight {
+  grid-area: fifty-eight;
+}
+#box-fifty-nine {
+  grid-area: fifty-nine;
+}
+#box-sixty {
+  grid-area: sixty;
+  width: 390px;
+}
+
+.box {
+  width: 10px;
+  height: 10px;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  padding-left: 50px;
+  padding-right: 50px;
+  color: #fff;
+  border-radius: 8px;
+  background: linear-gradient(20deg, #1f28a3, #33509a);
+}
+
+.darkening{
+  position: absolute;
+  width: 100%;
+  height: 877px;
+  z-index: 7;
+  top:0;
+  background-color: #000;
+  opacity: 0.8;
+}
+
+.modal{
+  position: absolute;
+  z-index: 8;
+  background-color: #fff;
+  width: 500px;
+  height: 500px;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  border-radius: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th, td {
+  border-top: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+.first-column {
+  width: 30%;
+  height: 95px;
+}

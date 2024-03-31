@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="text/javascript" src="board.js" defer="defer"></script>
+    <link rel="stylesheet" href="board-styles.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Juego de la oca tablero</title>
+  </head>
+  <body>
+    <audio id="menu-theme" autoplay loop>
+      <source src="music/match-theme.mp3" type="audio/mpeg" />
+    </audio>
+    <button id="playAudio" class="play-audio"></button>
+    <nav class="menu"></nav>
+    <main class="main-content">
+      <div class="background-screen"></div>
+      <div class="players-menu d-flex flex-row">
+        <section class="bench-of-players">
+          <article id="mainPlayer" class="player-bench d-flex">
+            <img
+              src="images/gato.jpg"
+              width="100px"
+              height="100px"
+              alt="imagen-jugador"
+            />
+          </article>
+          <article id="secondPlayer" class="player-bench hide d-flex">
+            <img
+              src="images/gato.jpg"
+              width="100px"
+              height="100px"
+              alt="imagen-jugador"
+            />
+          </article>
+          <article id="thirdPlayer" class="player-bench hide d-flex">
+            <img
+              src="images/gato.jpg"
+              width="100px"
+              height="100px"
+              alt="imagen-jugador"
+            />
+          </article>
+          <article id="fourthPlayer" class="player-bench hide d-flex">
+            <img
+              src="images/gato.jpg"
+              width="100px"
+              height="100px"
+              alt="imagen-jugador"
+            />
+          </article>
+        </section>
+        <section class="players-controllers p-1">
+          <article id="mainPlayerControl" class="roll-dice hide">
+            <div class="d-flex flex-row">
+              <button id="rollDiceOne"class="roll-dice-btn align-self reset-btn btn" onclick="rollDiceButtonClick(this)">
+                Tirar dado</button
+              ><div class="dice-result d-flex justify-content-center"><p id="diceNumberOne" class="dice-number align-self">0</p></div>
+            </div>
+          </article>
+          <article id="secondPlayerControl" class="roll-dice hide">
+            <div class="d-flex flex-row">
+              <button id="rollDiceTwo"disabled class="roll-dice-btn align-self reset-btn btn" onclick="rollDiceButtonClick(this)">
+                Tirar dado</button
+              ><div class="dice-result d-flex justify-content-center"><p id="diceNumberTwo" class="dice-number align-self">0</p></div>
+            </div>
+          <article id="thirdPlayerControl" class="roll-dice hide">
+            <div class="d-flex flex-row">
+              <button id="rollDiceThree" disabled class="roll-dice-btn align-self reset-btn btn" onclick="rollDiceButtonClick(this)">
+                Tirar dado</button
+              ><div class="dice-result d-flex justify-content-center"><p id="diceNumberThree" class="dice-number align-self">0</p></div>
+            </div>
+          </article>
+          <article id="fourthPlayerControl" class="roll-dice hide">
+            <div class="d-flex flex-row">
+              <button id="rollDiceFour" disabled class="roll-dice-btn align-self reset-btn btn" onclick="rollDiceButtonClick(this)">
+                Tirar dado</button
+              ><div class="dice-result d-flex justify-content-center"><p id="diceNumberFour" class="dice-number align-self">0</p></div>
+            </div>
+          </article>
+        </section>
+      </div>
+
+      <div id="1" class="token oneToken d-flex justify-content-center"></div>
+      <div id="2" class="token secondToken d-flex justify-content-center hide"></div>
+      <div id="3" class="token thirdToken d-flex justify-content-center hide"></div>
+      <div id="4" class="token fourthToken d-flex justify-content-center hide"></div>
+
+      <img class="board"src="images/tablero.jpg"/>
+      <div class="board-skeleton p-1">
+        <div id="box-one" class="box">1</div>
+        <div id="box-two" class="box">2</div>
+        <div id="box-three" class="box">3</div>
+        <div id="box-four" class="box">4</div>
+        <div id="box-five" class="box">5</div>
+        <div id="box-six" class="box">6</div>
+        <div id="box-seven" class="box">7</div>
+        <div id="box-eight" class="box">8</div>
+        <div id="box-nine" class="box">9</div>
+        <div id="box-ten" class="box">10</div>
+        <div id="box-eleven" class="box">11</div>
+        <div id="box-twelve" class="box">12</div>
+        <div id="box-thirteen" class="box">13</div>
+        <div id="box-fourteen" class="box">14</div>
+        <div id="box-fifteen" class="box">15</div>
+        <div id="box-sixteen" class="box">16</div>
+        <div id="box-seventeen" class="box">17</div>
+        <div id="box-eighteen" class="box">18</div>
+        <div id="box-nineteen" class="box">19</div>
+        <div id="box-twenty" class="box">20</div>
+        <div id="box-twenty-one" class="box">21</div>
+        <div id="box-twenty-two" class="box">22</div>
+        <div id="box-twenty-three" class="box">23</div>
+        <div id="box-twenty-four" class="box">24</div>
+        <div id="box-twenty-five" class="box">25</div>
+        <div id="box-twenty-six" class="box">26</div>
+        <div id="box-twenty-seven" class="box">27</div>
+        <div id="box-twenty-eight" class="box">28</div>
+        <div id="box-twenty-nine" class="box">29</div>
+        <div id="box-thirty" class="box">30</div>
+        <div id="box-thirty-one" class="box">31</div>
+        <div id="box-thirty-two" class="box">32</div>
+        <div id="box-thirty-three" class="box">33</div>
+        <div id="box-thirty-four" class="box">34</div>
+        <div id="box-thirty-five" class="box">35</div>
+        <div id="box-thirty-six" class="box">36</div>
+        <div id="box-thirty-seven" class="box">37</div>
+        <div id="box-thirty-eight" class="box">38</div>
+        <div id="box-thirty-nine" class="box">39</div>
+        <div id="box-forty" class="box">40</div>
+        <div id="box-forty-one" class="box">41</div>
+        <div id="box-forty-two" class="box">42</div>
+        <div id="box-forty-three" class="box">43</div>
+        <div id="box-forty-four" class="box">44</div>
+        <div id="box-forty-five" class="box">45</div>
+        <div id="box-forty-six" class="box">46</div>
+        <div id="box-forty-seven" class="box">47</div>
+        <div id="box-forty-eight" class="box">48</div>
+        <div id="box-forty-nine" class="box">49</div>
+        <div id="box-fifty" class="box">50</div>
+        <div id="box-fifty-one" class="box">51</div>
+        <div id="box-fifty-two" class="box">52</div>
+        <div id="box-fifty-three" class="box">53</div>
+        <div id="box-fifty-four" class="box">54</div>
+        <div id="box-fifty-five" class="box">55</div>
+        <div id="box-fifty-six" class="box">56</div>
+        <div id="box-fifty-seven" class="box">57</div>
+        <div id="box-fifty-eight" class="box">58</div>
+        <div id="box-fifty-nine" class="box">59</div>
+        <div id="box-sixty" class="box">60</div>
+      </div>
+      <div id="modalBackground" class="darkening hide"></div>
+      <div id="listModal" class="modal hide">
+      <div><h3>Partida finalizada Resultados: </h3></div>
+        <table>
+          <tr>
+              <th class="first-column">Jugadores</th>
+              <th>Lugar</th>
+          </tr>
+          <tr>
+              <td id="firstPlace" class="first-column"></td>
+              <td>Primero</td>
+          </tr>
+          <tr>
+              <td id="secondPlace" class="first-column"></td>
+              <td>Segundo</td>
+          </tr>
+          <tr>
+              <td id="thirdPlace" class="first-column"></td>
+              <td>Tercero</td>
+          </tr>
+          <tr>
+            <td id="FourthPlace" class="first-column"></td>
+            <td>Cuarto</td>
+        </tr>
+      </table>
+      </div>
+    </main>
+    <footer class="footer">&copy Daniel Berroterán</footer>
+  </body>
+</html>

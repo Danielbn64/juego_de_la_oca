@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="text/javascript" src="menu.js" defer="defer"></script>
+    <title>Juego de la oca menu</title>
+  </head>
+  <body>
+    <audio
+      id="menu-theme"
+      autoplay
+      loop
+    >
+      <source src="music/main-menu.mp3" type="audio/mpeg" />
+    </audio>
+    <button id="playAudio" class="play-audio"></button>
+    <nav class="menu">
+      <div class="option p-1">
+        <p>¿Cómo se juega?</p>
+        <ul class="hide">
+          <li class="children_options">Instrucciones</li>
+        </ul>
+      </div>
+      <div class="option p-1">
+        <p>Elige tu personaje</p>
+        <ul class="hide">
+          <li id="pinguino" class="children_options d-flex flex-column">
+            <figure class="img-container">
+              <img
+                class="img-sizes"
+                height="50px"
+                width="50px"
+                src="images/pinguino.jpg"
+                alt="pinguino"
+              />
+            </figure>
+            <p class="align-self">pinguino</p>
+          </li>
+          <li id="gata" class="children_options d-flex flex-column">
+            <figure class="img-container">
+              <img
+                class="img-sizes"
+                height="50px"
+                width="50px"
+                src="images/gata.jpg"
+                alt="gata"
+              />
+            </figure>
+            <p class="align-self">gata</p>
+          </li>
+          <li id="gato" class="children_options d-flex flex-column">
+            <figure class="img-container">
+              <img
+                class="img-sizes"
+                height="50px"
+                width="50px"
+                src="images/gato.jpg"
+                alt="gato"
+              />
+            </figure>
+            <p class="align-self">gato</p>
+          </li>
+          <li id="perro" class="children_options d-flex flex-column">
+            <figure class="img-container">
+              <img
+                class="img-sizes"
+                height="50px"
+                width="50px"
+                src="images/perro.jpg"
+                alt="perro"
+              />
+            </figure>
+            <p class="align-self">perro</p>
+          </li>
+          <li id="pato" class="children_options d-flex flex-column">
+            <figure class="img-container">
+              <img
+                class="img-sizes"
+                height="50px"
+                width="50px"
+                src="images/pato.jpg"
+                alt="pato"
+              />
+            </figure>
+            <p class="align-self">pato</p>
+          </li>
+        </ul>
+      </div>
+      <div class="option p-1">
+        <p>Elige el numero de jugadores</p>
+        <ul class="hide">
+          <li id="twoPlayers" class="children_options">2</li>
+          <li id="threePlayers" class="children_options">3</li>
+          <li id="fourPlayers" class="children_options">4</li>
+        </ul>
+      </div>
+    </nav>
+    <div class="start-screen"></div>
+    <img class="welcome-penguin" width="20%" src="images/amarillo.jpg" alt="" />
+    <span class="welcome-message"
+      ><p>
+        Hola Onliners!! te invito a jugar a mi juego, elige las opciones a tu
+        derecha y luego pulsa en el botón jugar para iniciar partida.
+      </p></span
+    >
+    <div class="start-info d-flex flex-column justify-space-around p-1">
+      <div class="match-preferences-container d-flex flex-column p-1">
+        <h4 class="align-self">Preferencias de partida:</h4>
+        <div class="match-preferences p-1">
+          <div>
+            <h4>Personaje:</h4>
+            <p id="characterSelected" class="p-1">escoge tu personaje.</p>
+          </div>
+          <div>
+            <h4>Numero de jugadores:</h4>
+            <p id="numberOfPlayerSelected" class="p-1">
+              <span>Escoge el numero de jugadores</span>
+            </p>
+          </div>
+        </div>
+        <button
+          id="deletePreferencesButton"
+          class="reset-preferences align-self p-1 reset-btn btn"
+          disabled
+        >
+          borrar preferencias
+        </button>
+      </div>
+      <button
+        id="playButton"
+        class="start align-self p-1 reset-btn btn"
+        disabled
+      >
+        Jugar
+      </button>
+    </div>
+    <footer class="footer">&copy Daniel Berroterán</footer>
+  </body>
+</html>
