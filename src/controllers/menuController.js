@@ -1,12 +1,9 @@
 "use strict";
 
+//CLases que se van a utilizar en este controlador, No se han importado en forma de
+//modulos para facilitar el despliege y la revicion de la tarea:
 class Player {
-  constructor(
-    playerId,
-    playerCharacter,
-    playerToken,
-    playerNumberPreference
-  ) {
+  constructor(playerId, playerCharacter, playerToken, playerNumberPreference) {
     this._playerId = playerId;
     this._playerCharacter = playerCharacter;
     this._playerToken = playerToken;
@@ -53,20 +50,22 @@ class Player {
     this._win = win;
   }
 
-  // declareWin(playerToken){
-  //   if (playerToken === 1){
-  //     let playerOne = localStorage.getItem("playerPreferences");
-  //     let playerOneObject = JSON.parse(playerOne);
-  //     playerOneObject.
-  //   }else if (playerToken === 2){
+  //Declara ganador al jugador que haya pisado la casilla 60:
+  static declareWinner(playerToken) {
+    let matchReport = convertToArray();
+    if (playerToken === 1) {
+      matchReport[0][2] = true;
+    } else if (playerToken === 2) {
+      matchReport[1][2] = true;
+    } else if (playerToken === 3) {
+      matchReport[2][2] = true;
+    } else {
+      matchReport[3][2] = true;
+    }
+    localStorage.setItem("matchReport", matchReport);
+  }
 
-  //   }else if (playerToken === 3){
-
-  //   }else{
-
-  //   }
-  // }
-
+  //Método para declarar la partida iniciada:
   static startMatch() {
     let matchState = localStorage.getItem("Match");
     let matchStateObject = JSON.parse(matchState);
@@ -75,20 +74,24 @@ class Player {
     localStorage.setItem("Match", matchStateString);
   }
 
-  restartMatch() {
-    console.log(`El jugador ${this._playerId} ha reiniciado el partido.`);
+  //Método para reiniciar la partida:
+  static restartMatch() {
+    this.createMatchReport();
+    window.location.reload();
   }
 
+  //Muestra un numero aleatorio del 1 al 6:
   static rollDice() {
     const diceResult = Math.floor(Math.random() * 6) + 1;
     return diceResult;
   }
 
+  //Controla el movimiento de cada ficha y establece que si
+  //una ficha ya esta en la posición 60 ya no se puede mover mas:
   static moveToken(tokenPosition, diceResult) {
-    //Sumar la posición del token con el resultado del dado:
     let currentPosition = tokenPosition[1];
     let newPosition = currentPosition + diceResult;
-    if (newPosition > 60) {
+    if (newPosition > 60 && !tokenPosition[2]) {
       let restOfPosition = 60 - currentPosition;
       let stepsToGoBack = diceResult - restOfPosition;
       newPosition = 60 - stepsToGoBack;
@@ -97,7 +100,13 @@ class Player {
     } else if (newPosition === 60) {
       {
         tokenPosition[1] = 60;
+        let playerToken = tokenPosition[0];
+        this.declareWinner(playerToken);
+        return tokenPosition;
       }
+    } else if (newPosition > 60 && tokenPosition[2]) {
+      tokenPosition[1] = 61;
+      return tokenPosition;
     } else {
       tokenPosition[1] = newPosition;
       return tokenPosition;
@@ -127,14 +136,9 @@ class Match {
     this._matchState = newMatchState;
   }
 
-  listNumberPlayers(numberOfPlayers) {
-    let players = [];
-    for (let i = 0; i < numberOfPlayers; i++) {
-      players[i];
-    }
-    return players;
-  }
-
+  //Establece el array llamado reporte de partida
+  //donde se guardara el numero de la ficha la posición de cada ficha
+  //O si la ficha ha llegado ya a la meta:
   static createMatchReport() {
     let playerPreferences = localStorage.getItem("playerPreferences");
     let playerPreferencesObject = JSON.parse(playerPreferences);
@@ -147,6 +151,7 @@ class Match {
     localStorage.setItem("matchReport", matchReportArray);
   }
 
+  //Modifica el array de reporte de partida cuando un jugador ha terminado su jugada:
   static updateMatchReport(newTokenPosition) {
     let playerPreferences = localStorage.getItem("playerPreferences");
     let playerPreferencesObject = JSON.parse(playerPreferences);
@@ -162,15 +167,112 @@ class Match {
     }
     localStorage.setItem("matchReport", newMatchReportArray);
   }
+
+  //Establece la posición de las fichas en su lugar despues de una recarga de la página
+  //para evitar la perdida del progreso en una partida iniciada: 
+  static saveMatch(coordinates) {
+    let matchReport = convertToArray();
+    for (let i = 0; i < matchReport.length; i++) {
+      for (let j = 0; j < coordinates.length; j++) {
+        let positionString = matchReport[i][1].toString();
+        if (positionString === coordinates[j][0] && matchReport[i][0] === 1) {
+          let oneToken = document.querySelector("div.oneToken");
+          let adjustLeft = coordinates[j][1];
+          adjustLeft += 20;
+          let adjustTop = coordinates[j][2];
+          adjustTop += 20;
+          oneToken.style.left = adjustLeft + "px";
+          oneToken.style.top = adjustTop + "px";
+        } else if (
+          positionString === coordinates[j][0] &&
+          matchReport[i][0] === 2
+        ) {
+          let secondToken = document.querySelector("div.secondToken");
+          let adjustLeft = coordinates[j][1];
+          adjustLeft += 24;
+          let adjustTop = coordinates[j][2];
+          adjustTop += 24;
+          secondToken.style.left = adjustLeft + "px";
+          secondToken.style.top = adjustTop + "px";
+        } else if (
+          positionString === coordinates[j][0] &&
+          matchReport[i][0] === 3
+        ) {
+          let thirdToken = document.querySelector("div.thirdToken");
+          let adjustLeft = coordinates[j][1];
+          adjustLeft += 26;
+          let adjustTop = coordinates[j][2];
+          adjustTop += 26;
+          thirdToken.style.left = adjustLeft + "px";
+          thirdToken.style.top = adjustTop + "px";
+        } else if (
+          positionString === coordinates[j][0] &&
+          matchReport[i][0] === 4
+        ) {
+          let fourthToken = document.querySelector("div.fourthToken");
+          let adjustLeft = coordinates[j][1];
+          adjustLeft += 17;
+          let adjustTop = coordinates[j][2];
+          adjustTop += 17;
+          fourthToken.style.left = adjustLeft + "px";
+          fourthToken.style.top = adjustTop + "px";
+        }
+      }
+    }
+  }
+
+  //Establece la partida como finalizada cuando el penultimo jugador haya llegado a la casilla 60:
+  static endMatch(listWinners) {
+    let playerPreferences = localStorage.getItem("playerPreferences");
+    let playerPreferencesObject = JSON.parse(playerPreferences);
+    let numberOfPlayer = playerPreferencesObject.playerNumberPreference;
+    let matchString = localStorage.getItem("Match");
+    let matchObject = JSON.parse(matchString);
+    if (numberOfPlayer === 2 && listWinners.length === 1) {
+      matchObject._matchState = "ended";
+      let match = JSON.stringify(matchObject);
+      localStorage.setItem("Match", match);
+    } else if (numberOfPlayer === 3 && listWinners.length === 2) {
+      matchObject._matchState = "ended";
+      let match = JSON.stringify(matchObject);
+      localStorage.setItem("Match", match);
+    } else if (numberOfPlayer === 4 && listWinners.length === 3) {
+      matchObject._matchState = "ended";
+      let match = JSON.stringify(matchObject);
+      localStorage.setItem("Match", match);
+    }
+  }
+
+  //Lista los jugadores que han alcanzado la posicion 60:
+  static listWinners(listWinners) {
+    let matchReport = convertToArray();
+    let isInclude = false;
+    for (let i = 0; i < matchReport.length; i++) {
+      isInclude = listWinners.includes(matchReport[i][0]);
+      if (matchReport[i][2] && !isInclude) {
+        listWinners.push(matchReport[i][0]);
+        break;
+      }
+    }
+    this.endMatch(listWinners);
+    return listWinners;
+  }
+
+  //Reinicia la partida:
+  static restartMatch() {
+    this.createMatchReport();
+    window.location.reload();
+  }
 }
 
 /*********************** MENU ************************/
-
+//Establece un esquema de opciones para el menu principal:
 const menuSchema = {
   characterSelect: ["pinguino", "gata", "gato", "perro", "pato"],
   playersNumber: ["twoPlayers", "threePlayers", "fourPlayers"],
 };
 
+//Variables necesarias para el funcionamiento del menú de inicio:
 var menu = document.querySelectorAll("nav.menu div");
 var characterSelected = document.getElementById("characterSelected");
 var numberOfPlayerSelected = document.getElementById("numberOfPlayerSelected");
@@ -182,6 +284,8 @@ const playButton = document.getElementById("playButton");
 var currentRoute = window.location.href;
 const player = new Player();
 
+//Método auxiliar para comprobar si el jugador principal a sido creado
+//y habilitar el botón de reinciar preferencias:
 function hasAllAttributes(object) {
   for (let key in object) {
     if (object[key] === undefined) {
@@ -191,6 +295,8 @@ function hasAllAttributes(object) {
   return true;
 }
 
+//Convierte el id de las opciones de preferencia de numero de jugadors
+// en un numero y asi evitar usar id con valores numericos:
 function convertToNumber(itemId) {
   let numberOfPlayers = 0;
   switch (itemId) {
@@ -207,6 +313,7 @@ function convertToNumber(itemId) {
   return numberOfPlayers;
 }
 
+//Guarda las preferencias de partida del usuario:
 function saveItemSelected(itemId, hasAllAttributes) {
   let playerPreferences = localStorage.getItem("playerPreferences");
   if (playerPreferences === null) {
@@ -242,6 +349,7 @@ function saveItemSelected(itemId, hasAllAttributes) {
   }
 }
 
+//Carga las preferencias de partida del usuario despues de hacer una recarga de la página:
 document.addEventListener("DOMContentLoaded", function () {
   let preferencesSelected = localStorage.getItem("playerPreferences");
   if (preferencesSelected) {
@@ -256,12 +364,14 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
+//Se activan los métodos encargados de borrar las preferencias de partida:
 deletePreferencesButton.addEventListener("click", function () {
   localStorage.removeItem("playerPreferences");
   localStorage.removeItem("Match");
   location.reload();
 });
 
+//Controla el funcionamiento del menú principal:
 menu.forEach((option) => {
   let childrenOptions = option.querySelectorAll("ul");
   option.addEventListener("click", function () {
@@ -278,6 +388,7 @@ menu.forEach((option) => {
   });
 });
 
+//Controla el funcionamiento del botón para empezar el juego:
 playButton.addEventListener("click", function () {
   Match.createMatchReport();
   let lastIndexOf = currentRoute.lastIndexOf("/");
@@ -286,6 +397,7 @@ playButton.addEventListener("click", function () {
   window.location.href = boardRoute;
 });
 
+//Controla el funcionamiento para cerrar los menus desplegables cuando se haga click fuera de ellos:
 document.addEventListener("click", function (event) {
   let isMenuClicked = event.target.closest(".menu");
   if (!isMenuClicked) {
@@ -308,9 +420,4 @@ document.addEventListener("click", function (event) {
       });
     }
   }
-});
-
-document.getElementById("playAudio").addEventListener("mouseover", function () {
-  var audio = document.getElementById("menu-theme");
-  audio.play();
 });

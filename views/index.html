@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="styles.css" />
-    <script type="text/javascript" src="menu.js" defer="defer"></script>
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+    <script type="text/javascript" src="../src/controllers/menuController.js" defer="defer"></script>
     <title>Juego de la oca menu</title>
   </head>
   <body>
@@ -13,14 +13,17 @@
       autoplay
       loop
     >
-      <source src="music/main-menu.mp3" type="audio/mpeg" />
+      <source src="../assets/music/main-menu.mp3" type="audio/mpeg" />
     </audio>
     <button id="playAudio" class="play-audio"></button>
     <nav class="menu">
       <div class="option p-1">
         <p>¿Cómo se juega?</p>
         <ul class="hide">
-          <li class="children_options">Instrucciones</li>
+          <li class="children_options">Tira los dados cuando sea tu turno, si llegas antes que el resto 
+            de jugadores ganas, si tiras los dados y no caes justamente en la ultima casilla deberás retroceder los
+            movimientos que te sobren, suerte!
+          </li>
         </ul>
       </div>
       <div class="option p-1">
@@ -32,7 +35,7 @@
                 class="img-sizes"
                 height="50px"
                 width="50px"
-                src="images/pinguino.jpg"
+                src="../assets/images/pinguino.jpg"
                 alt="pinguino"
               />
             </figure>
@@ -44,7 +47,7 @@
                 class="img-sizes"
                 height="50px"
                 width="50px"
-                src="images/gata.jpg"
+                src="../assets/images/gata.jpg"
                 alt="gata"
               />
             </figure>
@@ -56,7 +59,7 @@
                 class="img-sizes"
                 height="50px"
                 width="50px"
-                src="images/gato.jpg"
+                src="../assets/images/gato.jpg"
                 alt="gato"
               />
             </figure>
@@ -68,7 +71,7 @@
                 class="img-sizes"
                 height="50px"
                 width="50px"
-                src="images/perro.jpg"
+                src="../assets/images/perro.jpg"
                 alt="perro"
               />
             </figure>
@@ -80,7 +83,7 @@
                 class="img-sizes"
                 height="50px"
                 width="50px"
-                src="images/pato.jpg"
+                src="../assets/images/pato.jpg"
                 alt="pato"
               />
             </figure>
@@ -98,7 +101,7 @@
       </div>
     </nav>
     <div class="start-screen"></div>
-    <img class="welcome-penguin" width="20%" src="images/amarillo.jpg" alt="" />
+    <img class="welcome-penguin" width="20%" src="../assets/images/amarillo.jpg" alt="" />
     <span class="welcome-message"
       ><p>
         Hola Onliners!! te invito a jugar a mi juego, elige las opciones a tu

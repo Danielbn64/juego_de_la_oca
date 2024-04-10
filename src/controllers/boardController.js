@@ -1,18 +1,18 @@
 "use strinct";
 
+//CLases que se van a utilizar en este controlador, No se han importado en forma de
+//modulos para facilitar el despliege y la revicion de la tarea:
 class Player {
   constructor(
     playerId,
     playerCharacter,
     playerToken,
-    win,
     playerNumberPreference
   ) {
     this._playerId = playerId;
     this._playerCharacter = playerCharacter;
     this._playerToken = playerToken;
     this.playerNumberPreference = playerNumberPreference;
-    this._win = win;
   }
 
   getplayerId() {
@@ -55,6 +55,7 @@ class Player {
     this._win = win;
   }
 
+  //Declara ganador al jugador que haya pisado la casilla 60:
   static declareWinner(playerToken) {
     let matchReport = convertToArray();
     if (playerToken === 1) {
@@ -69,6 +70,7 @@ class Player {
     localStorage.setItem("matchReport", matchReport);
   }
 
+  //Método para declarar la partida iniciada: 
   static startMatch() {
     let matchState = localStorage.getItem("Match");
     let matchStateObject = JSON.parse(matchState);
@@ -77,17 +79,21 @@ class Player {
     localStorage.setItem("Match", matchStateString);
   }
 
-  restartMatch() {
-    console.log(`El jugador ${this._playerId} ha reiniciado el partido.`);
+  //Método para reiniciar la partida:
+  static restartMatch() {
+    this.createMatchReport();
+    window.location.reload();
   }
 
+  //Muestra un numero aleatorio del 1 al 6:
   static rollDice() {
     const diceResult = Math.floor(Math.random() * 6) + 1;
     return diceResult;
   }
 
+  //Controla el movimiento de cada ficha y establece que si
+  //una ficha ya esta en la posición 60 ya no se puede mover mas:
   static moveToken(tokenPosition, diceResult) {
-    //Sumar la posición del token con el resultado del dado:
     let currentPosition = tokenPosition[1];
     let newPosition = currentPosition + diceResult;
     if (newPosition > 60 && !tokenPosition[2]) {
@@ -135,19 +141,22 @@ class Match {
     this._matchState = newMatchState;
   }
 
-  // Método para generar un informe del partido
+  //Establece el array llamado reporte de partida
+  //donde se guardara el numero de la ficha la posición de cada ficha
+  //O si la ficha ha llegado ya a la meta:
   static createMatchReport() {
     let playerPreferences = localStorage.getItem("playerPreferences");
     let playerPreferencesObject = JSON.parse(playerPreferences);
     let numberOfPlayer = playerPreferencesObject.playerNumberPreference;
     let matchReportArray = [];
     for (let i = 1; i < numberOfPlayer + 1; i++) {
-      let playerInfo = [i, 0];
+      let playerInfo = [i, 0, false];
       matchReportArray.push(playerInfo);
     }
     localStorage.setItem("matchReport", matchReportArray);
   }
 
+  //Modifica el array de reporte de partida cuando un jugador ha terminado su jugada:
   static updateMatchReport(newTokenPosition) {
     let tokenPosition = [];
     let matchReport = convertToArray();
@@ -161,6 +170,8 @@ class Match {
     localStorage.setItem("matchReport", matchReport);
   }
 
+  //Establece la posición de las fichas en su lugar despues de una recarga de la página
+  //para evitar la perdida del progreso en una partida iniciada: 
   static saveMatch(coordinates) {
     let matchReport = convertToArray();
     for (let i = 0; i < matchReport.length; i++) {
@@ -212,6 +223,7 @@ class Match {
     }
   }
 
+  //Establece la partida como finalizada cuando el penultimo jugador haya llegado a la casilla 60:
   static endMatch(listWinners) {
     let playerPreferences = localStorage.getItem("playerPreferences");
     let playerPreferencesObject = JSON.parse(playerPreferences);
@@ -233,11 +245,7 @@ class Match {
     }
   }
 
-  restartMatch(){
-    this.createMatchReport();
-    window.location.reload();
-  }
-
+  //Lista los jugadores que han alcanzado la posicion 60:
   static listWinners(listWinners) {
     let matchReport = convertToArray();
     let isInclude = false;
@@ -251,31 +259,17 @@ class Match {
     this.endMatch(listWinners);
     return listWinners;
   }
+
+  //Reinicia la partida:
+  static restartMatch() {
+    this.createMatchReport();
+    window.location.reload();
+  }
 }
 
 class Board {
-  constructor() {
-    this._boxes = [];
-    this._boxPosition = [];
-  }
-
-  getboxes() {
-    return this._boxes;
-  }
-
-  setboxes(newBoxes) {
-    this._boxes = newBoxes;
-  }
-
-  getboxPosition() {
-    return this._boxPosition;
-  }
-
-  setboxPosition(newBoxPosition) {
-    this._boxPosition = newBoxPosition;
-  }
-
-  static MapBoardSkeleton() {
+  //Obtiene todas las coordenadas de las casillas del tablero:
+  static mapBoardSkeleton() {
     let boardSkeleton = document.querySelectorAll("div.box");
     let coordinates = [];
     boardSkeleton.forEach(function (box) {
@@ -288,23 +282,29 @@ class Board {
   }
 }
 
-//array de personajes que el usuario puede elegir:
+//Imagen de cada jugador:
 const mainPlayer = document.getElementById("mainPlayer");
 const secondPlayer = document.getElementById("secondPlayer");
 const thirdPlayer = document.getElementById("thirdPlayer");
 const fourthPlayer = document.getElementById("fourthPlayer");
 
+//Botobnes de dado de cada jugador:
 const mainPlayerControl = document.getElementById("mainPlayerControl");
 const secondPlayerControl = document.getElementById("secondPlayerControl");
 const thirdPlayerControl = document.getElementById("thirdPlayerControl");
 const fourthPlayerControl = document.getElementById("fourthPlayerControl");
 
-const coordinates = Board.MapBoardSkeleton();
+//Etiqueta de reproductor de audio:
+const playMusic = document.getElementById("playMusic");
+const mute = document.getElementById("Mute");
 
-//Array de ganandores
+//Array de coordenadas del tablero:
+const coordinates = Board.mapBoardSkeleton();
+
+//Array de ganadores:
 let listWinners = [];
 
-//Escoge un personaje aleatorio dentro del array de personajes:
+//Elige un personaje aleatorio para los jugadores secundarios:
 function ChoseRamdomCharacter(charactersArray) {
   let randomCharacterNumber = Math.floor(
     Math.random() * charactersArray.length
@@ -313,17 +313,19 @@ function ChoseRamdomCharacter(charactersArray) {
   return randomCharacter;
 }
 
+//Evita que se repitan personajes a la hora de crear a los jugadores:
 function filterSelectedCharacter(charactersArray, character) {
   charactersArray = charactersArray.filter((element) => element !== character);
   return charactersArray;
 }
 
+//Dibuja en el html el botón del dado del jugador principal:
 function createMainPlayerMenu() {
   let playerPreferences = localStorage.getItem("playerPreferences");
   let playerPreferencesObject = JSON.parse(playerPreferences);
   let playerCharacter = playerPreferencesObject._playerCharacter;
   mainPlayer.innerHTML = `
-  <img class="p-1" src="images/${playerCharacter}.jpg" width="100px" height="100px" alt="imagen-jugador"/>
+  <img class="p-1" src="../assets/images/${playerCharacter}.jpg" width="100px" height="100px" alt="imagen-jugador"/>
   <div class="player-info d-flex flex-column">
   <h4>Personaje:</h4>
       <p>${playerCharacter}</p>
@@ -333,6 +335,7 @@ function createMainPlayerMenu() {
   mainPlayerControl.classList.remove("hide");
 }
 
+//Dibuja la ficha del jugador principal:
 function createMainPlayerToken() {
   let playerPreferences = localStorage.getItem("playerPreferences");
   let playerPreferencesObject = JSON.parse(playerPreferences);
@@ -341,28 +344,30 @@ function createMainPlayerToken() {
   playerToken.classList.remove("hide");
   let playerCharacter = playerPreferencesObject._playerCharacter;
   playerToken.innerHTML = `
-  <img class="token-img align-self" src="images/${playerCharacter}.jpg" width="50px" height="50px" alt="imagen-jugador"/>
+  <img class="token-img align-self" src="../assets/images/${playerCharacter}.jpg" width="50px" height="50px" alt="imagen-jugador"/>
   `;
 }
 
+//Dibuja la ficha del resto de jugadores:
 function createPlayerToken(player) {
   playerIdString = player.getplayerId().toString();
   let playerToken = document.getElementById(playerIdString);
   playerToken.classList.remove("hide");
   let playerCharacter = player.getplayerCharacter();
   playerToken.innerHTML = `
-  <img class="token-img align-self" src="images/${playerCharacter}.jpg" width="50px" height="50px" alt="imagen-jugador"/>
+  <img class="token-img align-self" src="../assets/images/${playerCharacter}.jpg" width="50px" height="50px" alt="imagen-jugador"/>
   `;
 }
 
+//Controla la cantidad de jugadores que se ve en la pantalla, para que solo se vea la cantidad de jugadores
+//que el jugador principal a elegido en las preferencias de la partida:
 function createSecondaryPlayersBench(player) {
   let playerId = player.getplayerId();
-  //Crear el menú de los jugadores secundarios
   if (playerId === 2) {
     let playerCharacter = player.getplayerCharacter();
     secondPlayer.classList.remove("hide");
     secondPlayer.innerHTML = `
-    <img class="p-1" src="images/${playerCharacter}.jpg" width="100px" height="100px" alt="imagen-jugador"/>
+    <img class="p-1" src="../assets/images/${playerCharacter}.jpg" width="100px" height="100px" alt="imagen-jugador"/>
     <div class="player-info d-flex flex-column">
     <h4>Personaje:</h4>
         <p>${playerCharacter}</p>
@@ -374,7 +379,7 @@ function createSecondaryPlayersBench(player) {
     let playerCharacter = player.getplayerCharacter();
     thirdPlayer.classList.remove("hide");
     thirdPlayer.innerHTML = `
-    <img class="p-1" src="images/${playerCharacter}.jpg" width="100px" height="100px" alt="imagen-jugador"/>
+    <img class="p-1" src="../assets/images/${playerCharacter}.jpg" width="100px" height="100px" alt="imagen-jugador"/>
     <div class="player-info d-flex flex-column">
     <h4>Personaje:</h4>
         <p>${playerCharacter}</p>
@@ -386,7 +391,7 @@ function createSecondaryPlayersBench(player) {
     let playerCharacter = player.getplayerCharacter();
     fourthPlayer.classList.remove("hide");
     fourthPlayer.innerHTML = `
-    <img class="p-1" src="images/${playerCharacter}.jpg" width="100px" height="100px" alt="imagen-jugador"/>
+    <img class="p-1" src="../assets/images/${playerCharacter}.jpg" width="100px" height="100px" alt="imagen-jugador"/>
     <div class="player-info d-flex flex-column">
     <h4>Personaje:</h4>
         <p>${playerCharacter}</p>
@@ -397,6 +402,7 @@ function createSecondaryPlayersBench(player) {
   }
 }
 
+//Crea los jugadores secundarios de forma aleatoria:
 function createSecondaryPlayers() {
   var playerPreferences = localStorage.getItem("playerPreferences");
   if (playerPreferences !== null) {
@@ -430,6 +436,7 @@ function createSecondaryPlayers() {
   }
 }
 
+//Habilita el botón de tirar dados para el jugador que le toque el turno:
 function changePlayerTurn() {
   let rollDiceButtons = document.querySelectorAll("button.roll-dice-btn");
   let playerPreferences = localStorage.getItem("playerPreferences");
@@ -470,7 +477,8 @@ function changePlayerTurn() {
   }
 }
 
-function RenderRollDiceResult(button, rollDiceResult) {
+//Muestra el resultado de tirar el dado de cada jugador:
+function renderRollDiceResult(button, rollDiceResult) {
   if (button.id === "rollDiceOne") {
     resultFourthPlayer = document.getElementById("diceNumberFour");
     resultFirstPlayer = document.getElementById("diceNumberOne");
@@ -494,6 +502,7 @@ function RenderRollDiceResult(button, rollDiceResult) {
   }
 }
 
+//Obtiene la ficha de cada jugador:
 function selectPlayerToken(button) {
   if (button.id === "rollDiceOne") {
     const firstPlayer = localStorage.getItem("playerPreferences");
@@ -518,6 +527,8 @@ function selectPlayerToken(button) {
   }
 }
 
+//Este es un método auxiliar que transforma la información del reporte de partida que se
+//guarda en el localStorage y lo devuelve como un array:
 function convertToArray() {
   let matchReportString = localStorage.getItem("matchReport");
   matchReportSplited = matchReportString.split(",");
@@ -531,6 +542,7 @@ function convertToArray() {
   return matchReportArray;
 }
 
+//Busca la ficha y la posición del jugador al que le toca su turno:
 function catchPlayertokenPosition(playerToken) {
   let tokenPositionArray = [];
   let matchReport = convertToArray();
@@ -586,6 +598,19 @@ function DrawNewTokenPosition(newTokenPosition, coordinates) {
   }
 }
 
+//Muestra la lista de ganandores
+function showListWinners() {
+  let matchState = localStorage.getItem("Match");
+  let matchStateObject = JSON.parse(matchState);
+  if (matchStateObject._matchState === "ended") {
+    let modalBackground = document.getElementById("modalBackground");
+    modalBackground.classList.remove("hide");
+    let listModal = document.getElementById("listModal");
+    listModal.classList.remove("hide");
+  }
+}
+
+//Dibuja la lista de ganandores:
 function DrawListWinners(winners) {
   let listColumns = document.querySelectorAll("td.first-column");
   let tokens = document.querySelectorAll("div.token");
@@ -621,30 +646,17 @@ function DrawListWinners(winners) {
             column.innerHTML = `<img class="p-1" src="${playerCharacter}" width="150px" height="150px" alt="imagen-jugador"/><p>ficha Verde</p>`;
           }
         });
+      }else{
+        
       }
-      // if (column.id === "FourthPlace" && i === 4) {
-      //   tokens.forEach((token) => {
-      //     if (token.id === i[0]) {
-      //       playerCharacter = token.childNodes;
-      //       console.log(playerCharacter);
-      //     }
-      //   });
-      // }
     }
-    let matchState = localStorage.getItem("Match");
-    let matchStateObject = JSON.parse(matchState);
-    if(matchStateObject._matchState === "ended"){
-      let modalBackground = document.getElementById("modalBackground");
-      modalBackground.classList.remove("hide");
-      let listModal = document.getElementById("listModal");
-      listModal.classList.remove("hide");
-    };
   });
 }
 
+//Activa el evento de tirar los dados:
 function rollDiceButtonClick(button) {
   let rollDiceResult = Player.rollDice();
-  RenderRollDiceResult(button, rollDiceResult);
+  renderRollDiceResult(button, rollDiceResult);
   changePlayerTurn();
   let playerToken = selectPlayerToken(button);
   let tokenPosition = catchPlayertokenPosition(playerToken);
@@ -653,8 +665,10 @@ function rollDiceButtonClick(button) {
   Match.updateMatchReport(newTokenPosition);
   let winners = Match.listWinners(listWinners);
   DrawListWinners(winners);
+  showListWinners();
 }
 
+//Realiza funciones al cargar la página
 document.addEventListener("DOMContentLoaded", function () {
   createSecondaryPlayers();
   createMainPlayerMenu();
@@ -663,7 +677,19 @@ document.addEventListener("DOMContentLoaded", function () {
   Match.saveMatch(coordinates);
 });
 
-document.getElementById("playAudio").addEventListener("mouseover", function () {
-  var audio = document.getElementById("menu-theme");
+//Otorga funcionamiento al botón de reiniciar partida:
+resetMatch.addEventListener("click", function () {
+  Match.restartMatch();
+});
+
+//Reproduce musica:
+playMusic.addEventListener("click", function () {
+  let audio = document.getElementById("boardTheme");
   audio.play();
+});
+
+//Silencia musica:
+Mute.addEventListener("click", function () {
+  let audio = document.getElementById("boardTheme");
+  audio.muted = !audio.muted;
 });

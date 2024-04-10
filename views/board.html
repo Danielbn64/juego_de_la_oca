@@ -3,24 +3,33 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script type="text/javascript" src="board.js" defer="defer"></script>
-    <link rel="stylesheet" href="board-styles.css" />
-    <link rel="stylesheet" href="styles.css" />
+    <script type="text/javascript" src="../src/controllers/boardController.js" defer="defer"></script>
+    <link rel="stylesheet" href="../assets/css/board-styles.css" />
+    <link rel="stylesheet" href="../assets/css/styles.css" />
     <title>Juego de la oca tablero</title>
   </head>
   <body>
-    <audio id="menu-theme" autoplay loop>
-      <source src="music/match-theme.mp3" type="audio/mpeg" />
+    <audio id="boardTheme" autoplay loop>
+      <source src="../assets/music/match-theme.mp3" type="audio/mpeg" />
     </audio>
-    <button id="playAudio" class="play-audio"></button>
-    <nav class="menu"></nav>
+    <nav class="menu">
+      <div id="resetMatch" class="option p-1">
+        <p>Reiniciar Partida</p>
+      </div>
+      <div id="playMusic" class="option p-1">
+        <p>Reproducir musica</p>
+      </div>
+      <div id="Mute" class="option p-1">
+        <p>Quitar musica</p>
+      </div>
+    </nav>
     <main class="main-content">
       <div class="background-screen"></div>
       <div class="players-menu d-flex flex-row">
         <section class="bench-of-players">
           <article id="mainPlayer" class="player-bench d-flex">
             <img
-              src="images/gato.jpg"
+              src="../assets/images/pinguino.jpg"
               width="100px"
               height="100px"
               alt="imagen-jugador"
@@ -28,7 +37,7 @@
           </article>
           <article id="secondPlayer" class="player-bench hide d-flex">
             <img
-              src="images/gato.jpg"
+              src="../assets/images/gato.jpg"
               width="100px"
               height="100px"
               alt="imagen-jugador"
@@ -36,7 +45,7 @@
           </article>
           <article id="thirdPlayer" class="player-bench hide d-flex">
             <img
-              src="images/gato.jpg"
+              src="../assets/images/pinguino.jpg"
               width="100px"
               height="100px"
               alt="imagen-jugador"
@@ -44,7 +53,7 @@
           </article>
           <article id="fourthPlayer" class="player-bench hide d-flex">
             <img
-              src="images/gato.jpg"
+              src="../assets/images/pinguino.jpg"
               width="100px"
               height="100px"
               alt="imagen-jugador"
@@ -87,7 +96,7 @@
       <div id="3" class="token thirdToken d-flex justify-content-center hide"></div>
       <div id="4" class="token fourthToken d-flex justify-content-center hide"></div>
 
-      <img class="board"src="images/tablero.jpg"/>
+      <img class="board" src="../assets/images/tablero.jpg"/>
       <div class="board-skeleton p-1">
         <div id="box-one" class="box">1</div>
         <div id="box-two" class="box">2</div>
