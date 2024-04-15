@@ -1,7 +1,7 @@
 "use strinct";
 
-//CLases que se van a utilizar en este controlador, No se han importado en forma de
-//modulos para facilitar el despliege y la revicion de la tarea:
+//Clases que se van a utilizar en este controlador, No se han importado en forma de
+//módulos para facilitar el despliegue y la revisión de la tarea:
 class Player {
   constructor(
     playerId,
@@ -143,7 +143,7 @@ class Match {
 
   //Establece el array llamado reporte de partida
   //donde se guardara el numero de la ficha la posición de cada ficha
-  //O si la ficha ha llegado ya a la meta:
+  //o si la ficha ha llegado ya a la meta:
   static createMatchReport() {
     let playerPreferences = localStorage.getItem("playerPreferences");
     let playerPreferencesObject = JSON.parse(playerPreferences);
@@ -170,7 +170,7 @@ class Match {
     localStorage.setItem("matchReport", matchReport);
   }
 
-  //Establece la posición de las fichas en su lugar despues de una recarga de la página
+  //Establece la posición de las fichas en su lugar después de una recarga de la página
   //para evitar la perdida del progreso en una partida iniciada: 
   static saveMatch(coordinates) {
     let matchReport = convertToArray();
@@ -223,7 +223,7 @@ class Match {
     }
   }
 
-  //Establece la partida como finalizada cuando el penultimo jugador haya llegado a la casilla 60:
+  //Establece la partida como finalizada cuando el penúltimo jugador haya llegado a la casilla 60:
   static endMatch(listWinners) {
     let playerPreferences = localStorage.getItem("playerPreferences");
     let playerPreferencesObject = JSON.parse(playerPreferences);
@@ -245,7 +245,7 @@ class Match {
     }
   }
 
-  //Lista los jugadores que han alcanzado la posicion 60:
+  //Lista los jugadores que han alcanzado la posición 60:
   static listWinners(listWinners) {
     let matchReport = convertToArray();
     let isInclude = false;
@@ -288,7 +288,7 @@ const secondPlayer = document.getElementById("secondPlayer");
 const thirdPlayer = document.getElementById("thirdPlayer");
 const fourthPlayer = document.getElementById("fourthPlayer");
 
-//Botobnes de dado de cada jugador:
+//Botones de dado de cada jugador:
 const mainPlayerControl = document.getElementById("mainPlayerControl");
 const secondPlayerControl = document.getElementById("secondPlayerControl");
 const thirdPlayerControl = document.getElementById("thirdPlayerControl");
@@ -359,8 +359,8 @@ function createPlayerToken(player) {
   `;
 }
 
-//Controla la cantidad de jugadores que se ve en la pantalla, para que solo se vea la cantidad de jugadores
-//que el jugador principal a elegido en las preferencias de la partida:
+//Controla la cantidad de jugadores que se ve en la pantalla, 
+//para que solo se vea la cantidad de jugadores:
 function createSecondaryPlayersBench(player) {
   let playerId = player.getplayerId();
   if (playerId === 2) {
@@ -556,7 +556,7 @@ function catchPlayertokenPosition(playerToken) {
   }
 }
 
-function DrawNewTokenPosition(newTokenPosition, coordinates) {
+function drawNewTokenPosition(newTokenPosition, coordinates) {
   let newPositionString = newTokenPosition[1].toString();
   for (let i = 0; i < coordinates.length; i++) {
     if (coordinates[i][0] === newPositionString) {
@@ -598,7 +598,7 @@ function DrawNewTokenPosition(newTokenPosition, coordinates) {
   }
 }
 
-//Muestra la lista de ganandores
+//Muestra la lista de ganandores:
 function showListWinners() {
   let matchState = localStorage.getItem("Match");
   let matchStateObject = JSON.parse(matchState);
@@ -611,7 +611,7 @@ function showListWinners() {
 }
 
 //Dibuja la lista de ganandores:
-function DrawListWinners(winners) {
+function drawListWinners(winners) {
   let listColumns = document.querySelectorAll("td.first-column");
   let tokens = document.querySelectorAll("div.token");
   listColumns.forEach((column) => {
@@ -661,14 +661,14 @@ function rollDiceButtonClick(button) {
   let playerToken = selectPlayerToken(button);
   let tokenPosition = catchPlayertokenPosition(playerToken);
   let newTokenPosition = Player.moveToken(tokenPosition, rollDiceResult);
-  DrawNewTokenPosition(newTokenPosition, coordinates);
+  drawNewTokenPosition(newTokenPosition, coordinates);
   Match.updateMatchReport(newTokenPosition);
   let winners = Match.listWinners(listWinners);
-  DrawListWinners(winners);
+  drawListWinners(winners);
   showListWinners();
 }
 
-//Realiza funciones al cargar la página
+//Realiza funciones al cargar la página:
 document.addEventListener("DOMContentLoaded", function () {
   createSecondaryPlayers();
   createMainPlayerMenu();
@@ -682,13 +682,13 @@ resetMatch.addEventListener("click", function () {
   Match.restartMatch();
 });
 
-//Reproduce musica:
+//Reproduce música:
 playMusic.addEventListener("click", function () {
   let audio = document.getElementById("boardTheme");
   audio.play();
 });
 
-//Silencia musica:
+//Silencia música:
 Mute.addEventListener("click", function () {
   let audio = document.getElementById("boardTheme");
   audio.muted = !audio.muted;

@@ -1,7 +1,7 @@
 "use strict";
 
-//CLases que se van a utilizar en este controlador, No se han importado en forma de
-//modulos para facilitar el despliege y la revicion de la tarea:
+//Clases que se van a utilizar en este controlador, No se han importado en forma de
+//módulos para facilitar el despliegue y la revisión de la tarea:
 class Player {
   constructor(playerId, playerCharacter, playerToken, playerNumberPreference) {
     this._playerId = playerId;
@@ -50,7 +50,7 @@ class Player {
     this._win = win;
   }
 
-  //Declara ganador al jugador que haya pisado la casilla 60:
+   //Declara ganador al jugador que haya pisado la casilla 60:
   static declareWinner(playerToken) {
     let matchReport = convertToArray();
     if (playerToken === 1) {
@@ -65,7 +65,7 @@ class Player {
     localStorage.setItem("matchReport", matchReport);
   }
 
-  //Método para declarar la partida iniciada:
+  //Método para declarar la partida iniciada: 
   static startMatch() {
     let matchState = localStorage.getItem("Match");
     let matchStateObject = JSON.parse(matchState);
@@ -138,7 +138,7 @@ class Match {
 
   //Establece el array llamado reporte de partida
   //donde se guardara el numero de la ficha la posición de cada ficha
-  //O si la ficha ha llegado ya a la meta:
+  //o si la ficha ha llegado ya a la meta:
   static createMatchReport() {
     let playerPreferences = localStorage.getItem("playerPreferences");
     let playerPreferencesObject = JSON.parse(playerPreferences);
@@ -168,7 +168,7 @@ class Match {
     localStorage.setItem("matchReport", newMatchReportArray);
   }
 
-  //Establece la posición de las fichas en su lugar despues de una recarga de la página
+  //Establece la posición de las fichas en su lugar después de una recarga de la página
   //para evitar la perdida del progreso en una partida iniciada: 
   static saveMatch(coordinates) {
     let matchReport = convertToArray();
@@ -221,7 +221,7 @@ class Match {
     }
   }
 
-  //Establece la partida como finalizada cuando el penultimo jugador haya llegado a la casilla 60:
+  //Establece la partida como finalizada cuando el penúltimo jugador haya llegado a la casilla 60:
   static endMatch(listWinners) {
     let playerPreferences = localStorage.getItem("playerPreferences");
     let playerPreferencesObject = JSON.parse(playerPreferences);
@@ -243,7 +243,7 @@ class Match {
     }
   }
 
-  //Lista los jugadores que han alcanzado la posicion 60:
+  //Lista los jugadores que han alcanzado la posición 60:
   static listWinners(listWinners) {
     let matchReport = convertToArray();
     let isInclude = false;
@@ -266,7 +266,8 @@ class Match {
 }
 
 /*********************** MENU ************************/
-//Establece un esquema de opciones para el menu principal:
+
+//Establece un esquema de opciones para el menú principal:
 const menuSchema = {
   characterSelect: ["pinguino", "gata", "gato", "perro", "pato"],
   playersNumber: ["twoPlayers", "threePlayers", "fourPlayers"],
@@ -285,7 +286,7 @@ var currentRoute = window.location.href;
 const player = new Player();
 
 //Método auxiliar para comprobar si el jugador principal a sido creado
-//y habilitar el botón de reinciar preferencias:
+//y habilitar el botón de reiniciar preferencias:
 function hasAllAttributes(object) {
   for (let key in object) {
     if (object[key] === undefined) {
@@ -295,8 +296,8 @@ function hasAllAttributes(object) {
   return true;
 }
 
-//Convierte el id de las opciones de preferencia de numero de jugadors
-// en un numero y asi evitar usar id con valores numericos:
+//Convierte el id de las opciones de preferencia de numero de jugadores
+//en un numero y así evitar usar id con valores numéricos:
 function convertToNumber(itemId) {
   let numberOfPlayers = 0;
   switch (itemId) {
@@ -349,7 +350,7 @@ function saveItemSelected(itemId, hasAllAttributes) {
   }
 }
 
-//Carga las preferencias de partida del usuario despues de hacer una recarga de la página:
+//Carga las preferencias de partida del usuario después de hacer una recarga de la página:
 document.addEventListener("DOMContentLoaded", function () {
   let preferencesSelected = localStorage.getItem("playerPreferences");
   if (preferencesSelected) {
@@ -397,7 +398,7 @@ playButton.addEventListener("click", function () {
   window.location.href = boardRoute;
 });
 
-//Controla el funcionamiento para cerrar los menus desplegables cuando se haga click fuera de ellos:
+//Controla el funcionamiento para cerrar los menús desplegables cuando se haga click fuera de ellos:
 document.addEventListener("click", function (event) {
   let isMenuClicked = event.target.closest(".menu");
   if (!isMenuClicked) {
